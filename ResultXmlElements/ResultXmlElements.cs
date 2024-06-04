@@ -61,6 +61,11 @@ namespace Trxlog2Html.ResultXmlElements
             {
                 TestMethod = new TestMethodElement(testMethodElem);
             }
+            var executionElem = elem.Elements().Where(x => x.Name.LocalName == "Execution").FirstOrDefault();
+            if (executionElem != null)
+            {
+                Execution = new ExecutionElement(executionElem);
+            }
         }
 
 
@@ -74,10 +79,32 @@ namespace Trxlog2Html.ResultXmlElements
         /// </summary>
         public string Name { get; set; }
 
+        public ExecutionElement Execution { get; set; }
+
         /// <summary>
         /// TestMethod
         /// </summary>
         public TestMethodElement TestMethod { get; set; }
+    }
+
+    /// <summary>
+    /// ExecutionElement
+    /// </summary>
+    public class ExecutionElement
+    {
+        public ExecutionElement() 
+        {
+        }
+
+        public ExecutionElement(XElement elem)
+        {
+            Id = elem.Attribute("id").Value;
+        }
+
+        /// <summary>
+        /// Id
+        /// </summary>
+        public string Id { get; set; }
     }
 
     /// <summary>

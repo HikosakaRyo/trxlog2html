@@ -73,13 +73,13 @@ namespace Trxlog2Html
             var unitTestClasses = doc.Descendants()
                 .Where(x => x.Name.LocalName == "UnitTest")
                 .Select(x => new UnitTestElement(x))
-                .Where(x => x.TestMethod != null)
+                .Where(x => x.TestMethod != null && x.Execution != null)
                 .GroupBy(x => x.TestMethod.ClassName)
                 .OrderBy(x => x.Key)
                 .ToList();
             var unitTestResults = doc.Descendants()
                 .Where(x => x.Name.LocalName == "UnitTestResult")
-                .Select(x => new UnitTestResultElement(x)).ToDictionary(x => x.TestId);
+                .Select(x => new UnitTestResultElement(x)).ToDictionary(x => x.ExecutionId);
 
             var resultSummary = doc.Descendants().
                 Where(x => x.Name.LocalName == "ResultSummary")
@@ -117,7 +117,7 @@ namespace Trxlog2Html
             UnitTestElement src,
             Dictionary<string, UnitTestResultElement> testResults)
         {
-            if (!testResults.TryGetValue(src.Id, out var testResult))
+            if (!testResults.TryGetValue(src.Execution.Id, out var testResult))
             {
                 return null;
             }
