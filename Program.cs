@@ -83,6 +83,11 @@ namespace Trxlog2Html
                 .GroupBy(x => x.TestId)
                 .ToDictionary(x => x.Key, x => x.ToList());
 
+            var testSettings = doc.Descendants().
+                Where(x => x.Name.LocalName == "TestSettings")
+                .Select(x => new TestSettingsElement(x))
+                .FirstOrDefault();
+
             var resultSummary = doc.Descendants().
                 Where(x => x.Name.LocalName == "ResultSummary")
                 .Select(x => new ResultSummaryElement(x))
@@ -127,7 +132,8 @@ namespace Trxlog2Html
                         DisplayName = result.TestName,
                         TestMethod = src.TestMethod.Name,
                         Duration = result.Duration,
-                        Outcome = result.Outcome
+                        Outcome = result.Outcome,
+                        ResultFiles = result.ResultFiles,
                     };
                 }
             }

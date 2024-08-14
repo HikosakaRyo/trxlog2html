@@ -1,8 +1,27 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Trxlog2Html.ResultXmlElements
 {
+        public class TestSettingsElement
+    {
+        public TestSettingsElement()
+        {
+        }
+            public TestSettingsElement(XElement elem)
+        {
+            Name = elem.Attribute("name").Value;
+            Id = elem.Attribute("id").Value;
+            DeploymentRoot = elem.Elements().FirstOrDefault(x => x.Name.LocalName == "Deployment")?
+                    .Elements().Select(e => e.Attribute("runDeploymentRoot").Value).ToArray();
+        }
+
+        public string Name { get; }
+        public string Id { get; }
+        public string[] DeploymentRoot { get; }
+    }
     /// <summary>
     /// UnitTestResult
     /// </summary>
@@ -19,6 +38,8 @@ namespace Trxlog2Html.ResultXmlElements
             Duration = elem.Attribute("duration").Value;
             Outcome = elem.Attribute("outcome").Value;
             TestName = elem.Attribute("testName").Value;
+            ResultFiles = elem.Elements().FirstOrDefault(x => x.Name.LocalName == "ResultFiles")?
+                    .Elements().Select(e => e.Attribute("path").Value).ToArray();
         }
 
         /// <summary>
@@ -45,6 +66,7 @@ namespace Trxlog2Html.ResultXmlElements
         /// testName
         /// <summary>
         public string TestName { get; set; }
+        public IEnumerable<string> ResultFiles { get; set; }
     }
 
     /// <summary>

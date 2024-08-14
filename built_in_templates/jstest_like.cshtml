@@ -187,6 +187,18 @@ header {
               <div class="test-status">@testResult.Outcome</div>
               <div class="test-duration">@testResult.Duration</div>
             </div>
+          <div class="test-result-files" >
+            <legend>Generated Files</legend>
+            @if (testResult.ResultFiles.Any())
+            {
+              <ul>
+              @foreach (var file in testResult.ResultFiles)
+              {
+                <li><a href="@file">@file</a></li>
+              }
+              </ul>
+            }
+          </div>
         </div>
     }
     </div>

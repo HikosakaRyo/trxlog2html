@@ -37,7 +37,7 @@ namespace Trxlog2Html.ReportModels
         public string Duration { get; set; }
 
         public string Outcome { get; set; }
-
+        public IEnumerable<string> ResultFiles { get; set; }
     }
 
     /// <summary>
