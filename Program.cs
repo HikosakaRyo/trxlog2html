@@ -101,9 +101,9 @@ namespace Trxlog2Html
             model.Summary = Map(resultSummary);
             model.TestClasses = unitTestClasses.Select(x => Map(x, unitTestResults)).ToList();
             model.StartTime = startTime;
+            model.TestSettings = Map(testSettings);
             return model;
         }
-
         private ReportTestClassModel Map(
             IGrouping<string, UnitTestElement> src,
             Dictionary<string, List<UnitTestResultElement>> testResults)
@@ -118,7 +118,6 @@ namespace Trxlog2Html
                 .ToList();
             return ret;
         }
-
         private IEnumerable<ReportTestResultModel> Map(
             UnitTestElement src,
             Dictionary<string, List<UnitTestResultElement>> testResults)
@@ -138,7 +137,16 @@ namespace Trxlog2Html
                 }
             }
         }
-
+        private TestSettingsModel  Map(TestSettingsElement src)
+        {
+            var ret = new TestSettingsModel()
+            {
+                Name = src.Name,
+                Id = src.Id,
+                DeploymentRoot = src.DeploymentRoot,
+            };
+            return ret;
+        }
         private ReportSummaryModel Map(ResultSummaryElement src)
         {
             var ret = new ReportSummaryModel()

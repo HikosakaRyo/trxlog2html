@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Trxlog2Html.ResultXmlElements;
 
 namespace Trxlog2Html.ReportModels
 {
@@ -10,8 +11,10 @@ namespace Trxlog2Html.ReportModels
         public string StartTime { get; set; }
 
         public ReportSummaryModel Summary { get; set; }
+        public TestSettingsModel Settings {get;set;}
 
         public List<ReportTestClassModel> TestClasses { get; set; }
+        public TestSettingsModel TestSettings { get; internal set; }
     }
 
     /// <summary>
@@ -19,12 +22,10 @@ namespace Trxlog2Html.ReportModels
     /// </summary>
     public class ReportTestClassModel
     {
-
         public string ClassName { get; set; }
 
         public List<ReportTestResultModel> TestResults { get; set; }
     }
-
     /// <summary>
     /// report test result
     /// </summary>
@@ -39,7 +40,12 @@ namespace Trxlog2Html.ReportModels
         public string Outcome { get; set; }
         public IEnumerable<string> ResultFiles { get; set; }
     }
-
+    public class TestSettingsModel
+    {
+        public string Name { get; set; }
+        public string Id { get; set; }
+        public string[] DeploymentRoot { get; set;}
+    }
     /// <summary>
     /// report summary
     /// </summary>
