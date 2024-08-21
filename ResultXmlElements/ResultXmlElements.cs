@@ -14,13 +14,13 @@ namespace Trxlog2Html.ResultXmlElements
         {
             Name = elem.Attribute("name").Value;
             Id = elem.Attribute("id").Value;
-            DeploymentRoot = elem.Elements().FirstOrDefault(x => x.Name.LocalName == "Deployment")?
-                    .Elements().Select(e => e.Attribute("runDeploymentRoot").Value).ToArray();
+            runDeploymentRoot = elem.Elements().Where(x => x.Name.LocalName == "Deployment")?
+                    .Select(d => d.Attribute("runDeploymentRoot").Value).ToArray();
         }
 
         public string Name { get; }
         public string Id { get; }
-        public string[] DeploymentRoot { get; }
+        public string[] runDeploymentRoot { get; }
     }
     /// <summary>
     /// UnitTestResult
@@ -38,6 +38,7 @@ namespace Trxlog2Html.ResultXmlElements
             Duration = elem.Attribute("duration").Value;
             Outcome = elem.Attribute("outcome").Value;
             TestName = elem.Attribute("testName").Value;
+            ComputerName = elem.Attribute("computerName").Value;
             ResultFiles = elem.Elements().FirstOrDefault(x => x.Name.LocalName == "ResultFiles")?
                     .Elements().Select(e => e.Attribute("path").Value).ToArray();
         }
@@ -51,6 +52,8 @@ namespace Trxlog2Html.ResultXmlElements
         /// executionId
         /// </summary>
         public string ExecutionId { get; set; }
+
+        public string ComputerName { get; set; }
 
         /// <summary>
         /// duration

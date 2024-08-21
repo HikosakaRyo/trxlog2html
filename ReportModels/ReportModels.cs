@@ -14,7 +14,6 @@ namespace Trxlog2Html.ReportModels
         public TestSettingsModel Settings {get;set;}
 
         public List<ReportTestClassModel> TestClasses { get; set; }
-        public TestSettingsModel TestSettings { get; internal set; }
     }
 
     /// <summary>
@@ -39,12 +38,14 @@ namespace Trxlog2Html.ReportModels
 
         public string Outcome { get; set; }
         public IEnumerable<string> ResultFiles { get; set; }
+        public string ExecutionId { get; set; }
+        public string ComputerName { get; set; }
     }
     public class TestSettingsModel
     {
         public string Name { get; set; }
         public string Id { get; set; }
-        public string[] DeploymentRoot { get; set;}
+        public string DeploymentRoot { get; set;}
     }
     /// <summary>
     /// report summary

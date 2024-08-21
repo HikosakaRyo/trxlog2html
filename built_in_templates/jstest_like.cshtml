@@ -1,3 +1,4 @@
+@using Trxlog2Html.Extensions
 <html>
 <head><meta charset="utf-8"/>
 <title>Test Report</title>
@@ -170,7 +171,10 @@ header {
                 <div class="summary-pending summary-empty">@Model.Summary.Pending pending</div>
             </div>
         </div>
-    </div>
+    </div>  
+@{
+    var DeploymentRoot = Model.Settings.DeploymentRoot;
+}
 @foreach (var testClass in Model.TestClasses)
 {
   <div class="test-class-container">
@@ -180,6 +184,8 @@ header {
     <div>
     @foreach (var testResult in testClass.TestResults)
     {
+        var AssetsFolder = $"{DeploymentRoot}\\In\\{testResult.ExecutionId}\\";
+        
         <div class="test-result @testResult.Outcome">
             <div class="test-info">
               <div class="test-method-name">@testResult.TestMethod</div>
@@ -187,35 +193,40 @@ header {
               <div class="test-status">@testResult.Outcome</div>
               <div class="test-duration">@testResult.Duration</div>
             </div>
-          <div class="test-result-files" >
-            <legend>Generated Files</legend>
             @if (testResult.ResultFiles.Any())
             {
+            <div class="test-result-files" >
+              <legend>
+              <a href="@AssetsFolder/@(testResult.ComputerName)/">Generated Files</a>
+              </legend>
               <ul>
               @foreach (var file in testResult.ResultFiles)
               {
                 <li>
-                @if (file.IsImage())
+                 @if (file.IsImage())
                 {
-                  <img src="@file"/>
+                  <a href="@AssetsFolder@file"><img height="240" src="@AssetsFolder@file"/></a>
                 }
-                @elseif (file.IsVideo())
+                else if (file.IsVideo())
                 {
-                  <video width="320" height="240" controls>
-                    <source src="@file" type="video/webm">
-                    Your browser does not support the video tag.
-                  </video>
-                  <a href="@file">@file.GetFileName()</a>
+                  <div>
+                      <video width="320" height="240" controls>
+                        <source src="@AssetsFolder@file" type="video/webm">
+                        Your browser does not support the video tag.
+                      </video>
+                      <br />
+                      <a href="@AssetsFolder@file">@file.GetFileName()</a>
+                  </div>
                 }
                 else
                 {
-                  <a href="@file">@file.GetFileName()</a>
+                  <a href="@AssetsFolder@file">@file.GetFileName()</a>
                 }
                 </li>
               }
               </ul>
-            }
           </div>
+        }
         </div>
     }
     </div>

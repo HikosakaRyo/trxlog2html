@@ -101,7 +101,7 @@ namespace Trxlog2Html
             model.Summary = Map(resultSummary);
             model.TestClasses = unitTestClasses.Select(x => Map(x, unitTestResults)).ToList();
             model.StartTime = startTime;
-            model.TestSettings = Map(testSettings);
+            model.Settings = Map(testSettings);
             return model;
         }
         private ReportTestClassModel Map(
@@ -132,7 +132,9 @@ namespace Trxlog2Html
                         TestMethod = src.TestMethod.Name,
                         Duration = result.Duration,
                         Outcome = result.Outcome,
-                        ResultFiles = result.ResultFiles,
+                        ExecutionId = result.ExecutionId,
+                        ComputerName = result.ComputerName,
+                        ResultFiles = result.ResultFiles ?? Enumerable.Empty<string>(),
                     };
                 }
             }
@@ -143,7 +145,7 @@ namespace Trxlog2Html
             {
                 Name = src.Name,
                 Id = src.Id,
-                DeploymentRoot = src.DeploymentRoot,
+                DeploymentRoot = src.runDeploymentRoot.FirstOrDefault(),
             };
             return ret;
         }
