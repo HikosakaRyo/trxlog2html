@@ -205,7 +205,10 @@ header {
                 <li>
                  @if (file.IsImage())
                 {
-                  <a href="@AssetsFolder@file"><img height="240" src="@AssetsFolder@file"/></a>
+                  <a href="@AssetsFolder@file"><img height="240" alt="@(file.GetFileName().ToTitle())" src="@AssetsFolder@file"/>
+                      <br />
+                  @(file.GetFileName().ToTitle())
+                  </a>
                 }
                 else if (file.IsVideo())
                 {
