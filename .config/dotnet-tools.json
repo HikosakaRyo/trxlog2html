@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "trxlog2html": {
+      "version": "1.0.2",
+      "commands": [
+        "trxlog2html"
+      ],
+      "rollForward": false
+    }
+  }
+}

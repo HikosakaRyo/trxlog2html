@@ -194,7 +194,24 @@ header {
               <ul>
               @foreach (var file in testResult.ResultFiles)
               {
-                <li><a href="@file">@file</a></li>
+                <li>
+                @if (file.IsImage())
+                {
+                  <img src="@file"/>
+                }
+                @elseif (file.IsVideo())
+                {
+                  <video width="320" height="240" controls>
+                    <source src="@file" type="video/webm">
+                    Your browser does not support the video tag.
+                  </video>
+                  <a href="@file">@file.GetFileName()</a>
+                }
+                else
+                {
+                  <a href="@file">@file.GetFileName()</a>
+                }
+                </li>
               }
               </ul>
             }
