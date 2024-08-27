@@ -83,6 +83,11 @@ namespace Trxlog2Html
                 .GroupBy(x => x.TestId)
                 .ToDictionary(x => x.Key, x => x.ToList());
 
+            var testSettings = doc.Descendants().
+                Where(x => x.Name.LocalName == "TestSettings")
+                .Select(x => new TestSettingsElement(x))
+                .FirstOrDefault();
+
             var resultSummary = doc.Descendants().
                 Where(x => x.Name.LocalName == "ResultSummary")
                 .Select(x => new ResultSummaryElement(x))
@@ -96,9 +101,9 @@ namespace Trxlog2Html
             model.Summary = Map(resultSummary);
             model.TestClasses = unitTestClasses.Select(x => Map(x, unitTestResults)).ToList();
             model.StartTime = startTime;
+            model.Settings = Map(testSettings);
             return model;
         }
-
         private ReportTestClassModel Map(
             IGrouping<string, UnitTestElement> src,
             Dictionary<string, List<UnitTestResultElement>> testResults)
@@ -113,7 +118,6 @@ namespace Trxlog2Html
                 .ToList();
             return ret;
         }
-
         private IEnumerable<ReportTestResultModel> Map(
             UnitTestElement src,
             Dictionary<string, List<UnitTestResultElement>> testResults)
@@ -127,12 +131,24 @@ namespace Trxlog2Html
                         DisplayName = result.TestName,
                         TestMethod = src.TestMethod.Name,
                         Duration = result.Duration,
-                        Outcome = result.Outcome
+                        Outcome = result.Outcome,
+                        ExecutionId = result.ExecutionId,
+                        ComputerName = result.ComputerName,
+                        ResultFiles = result.ResultFiles ?? Enumerable.Empty<string>(),
                     };
                 }
             }
         }
-
+        private TestSettingsModel  Map(TestSettingsElement src)
+        {
+            var ret = new TestSettingsModel()
+            {
+                Name = src.Name,
+                Id = src.Id,
+                DeploymentRoot = src.runDeploymentRoot.FirstOrDefault(),
+            };
+            return ret;
+        }
         private ReportSummaryModel Map(ResultSummaryElement src)
         {
             var ret = new ReportSummaryModel()

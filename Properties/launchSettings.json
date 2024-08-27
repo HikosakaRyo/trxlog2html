@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "trxlog2html": {
+      "commandName": "Project",
+      "commandLineArgs": "-i C:\\Work\\Playwright-dotnet\\Playwright\\Childline.Tests.Behaviours\\TestResults\\TestResults.trx -o C:\\Work\\Playwright-dotnet\\Playwright\\Childline.Tests.Behaviours\\TestResults\\TestResults.html"
+    }
+  }
+}
